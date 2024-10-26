@@ -32,7 +32,6 @@ namespace Models
         [Required(ErrorMessage = "Published Date is required.")] 
         [DataType(DataType.Date)] 
         public DateTime PublishedDate { get; set; }
-        public bool IsDeleted { get; set; }
 
     }
 }

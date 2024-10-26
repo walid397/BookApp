@@ -1,4 +1,3 @@
-
 using Application.Contracts;
 using Application.Mapper;
 using Application.Sevices;
@@ -13,24 +12,36 @@ namespace BookApp
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            // ????? ????? CORS
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                               .AllowAnyMethod()
+                               .AllowAnyHeader();
+                    });
+            });
+
             builder.Services.AddScoped<IBookService, BookService>();
             builder.Services.AddScoped<IBookReposaitory, Reposaitores>();
             builder.Services.AddAutoMapper(typeof(AutoMapperClass));
 
-
-            // Add services to the container.
-
+            // ????? ??????? ??? ???????.
             builder.Services.AddControllers();
             builder.Services.AddDbContext<BookContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
             );
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+            // ????? Swagger/OpenAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            // ????? ???? ??? HTTP
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -39,8 +50,10 @@ namespace BookApp
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            // ??????? CORS
+            app.UseCors("AllowAllOrigins"); // ????? ??? ????? ?????? ????? CORS
 
+            app.UseAuthorization();
 
             app.MapControllers();
 

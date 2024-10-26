@@ -85,7 +85,7 @@ namespace Application.Sevices
         {
             var ListOfBooks = (await _bookReposaitory.GetAllAsync()).ToList();
             var ListOfBooksMapping = _mapper.Map<List<CreatBookDto>>(ListOfBooks);
-            return new ResultView<List<CreatBookDto>>() { Entity = ListOfBooksMapping };
+            return new ResultView<List<CreatBookDto>>() { Entity = ListOfBooksMapping ,ErrorMessage="Name Already Exist"};
         }
         public async Task<ResultView<CreatBookDto>> GetOneBookByIdAsync(int id)
         {

@@ -23,11 +23,11 @@ namespace BookApp.Controllers
         {
             var ListOfBooks = await _bookservice.GetAllBooksAsync();
 
-            return Ok(ListOfBooks);
+            return Ok(ListOfBooks.Entity);
         
         }
         [HttpPost]
-        public async Task<ActionResult<CreatBookDto>> Create(CreatBookDto creatBookDto)
+        public async Task<ActionResult<CreatBookDto>> Create([FromBody] CreatBookDto creatBookDto)
         {
             var ListOfBooks = await _bookservice.GetAllBooksAsync();
             var CheckBook = ListOfBooks.Entity.FirstOrDefault(b=>b.Title==creatBookDto.Title);
